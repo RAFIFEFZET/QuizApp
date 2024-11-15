@@ -7,15 +7,7 @@ import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import QuestionCard from "@/components/quiz/QuestionCard";
 import he from "he"; // Library untuk mendecode HTML entities
-
-// Mapping dari slug ke categoryId
-const slugToCategoryIdMap: { [key: string]: number } = {
-  "general-knowledge": 9,
-  "entertainment-video-games": 15,
-  "entertainment-anime-manga": 31,
-  "entertainment-cartoon-animations": 32,
-  // Tambahkan mapping lainnya sesuai kebutuhan
-};
+import { categories } from "@/data/categories"; // Impor categories
 
 // Helper function untuk delay
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -49,8 +41,11 @@ const QuestionsPage: React.FC = () => {
     return "easy"; // Default jika window tidak tersedia
   }, []);
 
-  // Mendapatkan categoryId dari slug
-  const categoryId = useMemo(() => slugToCategoryIdMap[slug], [slug]);
+  // Mendapatkan kategori berdasarkan slug
+  const category = useMemo(
+    () => categories.find((cat) => cat.slug === slug),
+    [slug]
+  );
 
   // Ref untuk memastikan fetch hanya dilakukan sekali
   const hasFetched = useRef(false);
@@ -61,7 +56,7 @@ const QuestionsPage: React.FC = () => {
       return;
     }
 
-    if (!categoryId) {
+    if (!category) {
       console.error("Invalid slug provided.");
       setError("Kategori tidak ditemukan.");
       return;
@@ -77,7 +72,7 @@ const QuestionsPage: React.FC = () => {
       while (attempts < MAX_RETRIES && !success) {
         try {
           const response = await axios.get<{ results: Question[] }>(
-            `https://opentdb.com/api.php?amount=10&category=${categoryId}&difficulty=${difficulty}&type=multiple`
+            `https://opentdb.com/api.php?amount=10&category=${category.id}&difficulty=${difficulty}&type=multiple`
           );
 
           if (response.data.results.length === 0) {
@@ -127,7 +122,7 @@ const QuestionsPage: React.FC = () => {
     };
 
     fetchQuestions();
-  }, [categoryId, difficulty]); // Hapus 'isLoading' dari dependencies
+  }, [category, difficulty]); // Gunakan 'category' sebagai dependency
 
   const handleOptionSelect = (
     questionIndex: number,
@@ -159,7 +154,7 @@ const QuestionsPage: React.FC = () => {
   return (
     <div className="p-4 flex flex-col flex-grow">
       <h1 className="text-2xl font-bold mb-4">
-        Quiz: {slug.replace(/-/g, " ")} -{" "}
+        Quiz: {category?.name} -{" "}
         {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}
       </h1>
       {isLoading || questions.length === 0 ? (
