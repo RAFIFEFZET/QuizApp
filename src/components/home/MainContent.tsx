@@ -14,11 +14,11 @@ const MainContent: React.FC<MainContentProps> = ({ handleStartQuiz }) => {
       {/* Judul dengan Ikon */}
       <div className="flex items-center mb-12">
         <HiMiniAcademicCap className="h-12 w-12 mr-4" />
-        <h1 className="text-5xl font-extrabold">Quiz App</h1>
+        <h1 className="font-poppins text-5xl font-extrabold">Quiz App</h1>
       </div>
 
       {/* Deskripsi */}
-      <p className="text-xl md:text-2xl text-center mb-12 max-w-2xl px-4 sm:px-0">
+      <p className="font-poppins text-xl md:text-2xl text-center mb-12 max-w-2xl px-4 sm:px-0">
         Selamat datang di Quiz App eksperimen menggunakan Next.js!👋👋
         <br />
         Ini adalah proyek coba-coba untuk mengeksplorasi fitur-fitur Next.js
