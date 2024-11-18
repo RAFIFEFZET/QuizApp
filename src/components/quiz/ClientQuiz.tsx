@@ -21,11 +21,7 @@ interface ClientQuizProps {
   difficulty: string;
 }
 
-const ClientQuiz: React.FC<ClientQuizProps> = ({
-  questions,
-  slug,
-  difficulty,
-}) => {
+const ClientQuiz: React.FC<ClientQuizProps> = ({ questions, slug }) => {
   const [userAnswers, setUserAnswers] = useState<{ [key: number]: string }>({});
   const router = useRouter();
 
