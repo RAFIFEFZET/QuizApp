@@ -31,7 +31,7 @@ const MainContent: React.FC<MainContentProps> = ({ handleStartQuiz }) => {
       {/* Tombol Start */}
       <Button
         onClick={handleStartQuiz}
-        className="px-8 py-4 text-lg rounded-lg shadow-lg transition-transform transform hover:scale-105 dark:bg-white-800"
+        className="px-8 py-4 text-lg rounded-lg shadow-lg transition-transform transition-colors duration-300 transform hover:scale-105 dark:bg-white-800"
       >
         Start
       </Button>
