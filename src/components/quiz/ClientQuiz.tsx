@@ -18,9 +18,14 @@ interface Question {
 interface ClientQuizProps {
   questions: Question[];
   slug: string;
+  difficulty: string;
 }
 
-const ClientQuiz: React.FC<ClientQuizProps> = ({ questions, slug }) => {
+const ClientQuiz: React.FC<ClientQuizProps> = ({
+  questions,
+  slug,
+  difficulty,
+}) => {
   const [userAnswers, setUserAnswers] = useState<{ [key: number]: string }>({});
   const router = useRouter();
 
@@ -53,7 +58,7 @@ const ClientQuiz: React.FC<ClientQuizProps> = ({ questions, slug }) => {
           ...question.incorrect_answers,
           question.correct_answer,
         ];
-        options.sort(() => Math.random() - 0.5); // Mengacak opsi
+        options.sort();
 
         return (
           <QuestionCard

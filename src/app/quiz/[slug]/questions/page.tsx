@@ -1,10 +1,9 @@
 // app/quiz/[slug]/questions/page.tsx
 
-import React from "react";
 import axios, { AxiosError } from "axios";
 import ClientQuiz from "@/components/quiz/ClientQuiz";
 import he from "he"; // Library untuk mendecode HTML entities
-import { categories } from "@/data/categories"; // Impor categories
+import { categories } from "@/data/categories";
 
 interface Question {
   category: string;
@@ -16,20 +15,26 @@ interface Question {
 }
 
 interface QuestionsPageProps {
-  params: {
-    slug: string;
-  };
-  searchParams: {
-    difficulty?: string;
-  };
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ difficulty?: string }>;
 }
 
 const MAX_RETRIES = 3; // Jumlah maksimal percobaan ulang
+
+const cache: { [key: string]: Question[] } = {};
 
 const fetchQuestions = async (
   categoryId: number,
   difficulty: string
 ): Promise<Question[]> => {
+  const cacheKey = `${categoryId}-${difficulty}`;
+
+  // Cek apakah data sudah ada di cache
+  if (cache[cacheKey]) {
+    console.log("Fetching questions from cache");
+    return cache[cacheKey];
+  }
+
   let attempts = 0;
   let success = false;
   let questions: Question[] = [];
@@ -58,8 +63,28 @@ const fetchQuestions = async (
       }));
 
       success = true;
+
+      // Simpan ke cache
+      cache[cacheKey] = questions;
     } catch (err) {
       attempts += 1;
+
+      // Tangani error sebagai AxiosError
+      const axiosError = err as AxiosError;
+
+      if (axiosError.response) {
+        // Server merespons dengan status code lainnya selain 2xx
+        console.error(
+          `Error: ${axiosError.response.status} - ${axiosError.response.statusText}`
+        );
+      } else if (axiosError.request) {
+        // Permintaan dibuat tapi tidak ada respons
+        console.error("Error: No response received from the server.");
+      } else {
+        // Terjadi kesalahan saat mengatur permintaan
+        console.error("Error:", axiosError.message);
+      }
+
       if (attempts < MAX_RETRIES) {
         const waitTime = Math.pow(2, attempts) * 1000; // Exponential backoff
         console.warn(
@@ -79,10 +104,12 @@ const fetchQuestions = async (
   return questions;
 };
 
-const QuestionsPage: React.FC<QuestionsPageProps> = async ({
-  params,
-  searchParams,
-}) => {
+// Ubah ke fungsi standar dan destructure di dalam fungsi
+export default async function QuestionsPage(props: QuestionsPageProps) {
+  // Await params and searchParams
+  const params = await props.params;
+  const searchParams = await props.searchParams;
+
   const slug = params.slug;
   const difficulty = searchParams.difficulty || "easy";
 
@@ -107,9 +134,7 @@ const QuestionsPage: React.FC<QuestionsPageProps> = async ({
         Quiz: {category.name} -{" "}
         {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}
       </h1>
-      <ClientQuiz questions={questions} slug={slug} />
+      <ClientQuiz questions={questions} slug={slug} difficulty={difficulty} />
     </div>
   );
-};
-
-export default QuestionsPage;
+}
