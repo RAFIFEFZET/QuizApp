@@ -185,7 +185,7 @@ const QuestionsPage: React.FC = () => {
             ...question.incorrect_answers,
             question.correct_answer,
           ];
-          options.sort(() => Math.random() - 0.5); // Mengacak opsi
+          options.sort();
 
           return (
             <QuestionCard
