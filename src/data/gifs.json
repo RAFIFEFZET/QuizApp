@@ -1,0 +1,9 @@
+{
+  "perfect": ["/gifs/perfect-score1.gif", "/gifs/perfect-score2.gif"],
+  "good": ["/gifs/good-score1.gif", "/gifs/good-score2.gif"],
+  "average": ["/gifs/average-score1.gif", "/gifs/average-score2.gif"],
+  "low": [
+    "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYW51MWp3NXhlNzU4Z2MyOTdjNXMyZ3hmd2F2M2I4ZDZhOTQzZm9lZiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/QlpRTJ2FIIpOmZrNgG/giphy.gif",
+    "https://media1.tenor.com/m/yx7pASaizeEAAAAd/robozz-electro-man.gif"
+  ]
+}
