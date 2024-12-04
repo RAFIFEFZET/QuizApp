@@ -16,9 +16,7 @@ const ScorePage: React.FC = () => {
   const slug = params.slug;
 
   // Validasi skor dan total
-  if (isNaN(score) || isNaN(total) || total <= 0) {
-    return <div className="p-4 text-red-500">Invalid score or total.</div>;
-  }
+  const isValid = !(isNaN(score) || isNaN(total) || total <= 0);
 
   // Menentukan kategori skor
   let category: keyof typeof gifsData = "average";
@@ -34,15 +32,15 @@ const ScorePage: React.FC = () => {
   }
 
   // Menentukan pesan berdasarkan kategori dengan gaya Gen Z
-  let message = "You did it, fam!";
+  let message = "Good effort!";
   if (category === "perfect") {
-    message = "Yasss! Slayed it with a perfect score!";
+    message = "Gyattt Damn";
   } else if (category === "good") {
-    message = "Lit! You did great!";
+    message = "I mean... Thats Alrigth";
   } else if (category === "average") {
-    message = "Not bad, keep hustling!";
+    message = "Hop On StudyTok";
   } else {
-    message = "You're cooked";
+    message = "You're cooked dawg☠️";
   }
 
   // Inisialisasi state untuk gifSrc
@@ -66,25 +64,41 @@ const ScorePage: React.FC = () => {
       <p className="text-xl mb-2">
         You scored {score} out of {total}
       </p>
-      <p className="text-xl mb-4">{message}</p>
-      {/* Tampilkan GIF berdasarkan skor setelah gifSrc ditentukan */}
-      {gifSrc ? (
-        <Image
-          src={gifSrc}
-          alt="Score GIF"
-          width={256}
-          height={256}
-          className="mb-6"
-        />
-      ) : (
-        <div className="w-64 h-64 mb-6 bg-gray-200 animate-pulse"></div>
+      <p className="text-xl mb-4">
+        {isValid ? message : "Invalid score or total."}
+      </p>
+
+      {isValid && (
+        <>
+          {/* Tampilkan GIF berdasarkan skor setelah gifSrc ditentukan */}
+          {gifSrc ? (
+            <Image
+              src={gifSrc}
+              alt="Score GIF"
+              width={256}
+              height={256}
+              className="mb-6"
+            />
+          ) : (
+            <div className="w-64 h-64 mb-6 bg-gray-200 animate-pulse"></div>
+          )}
+          <button
+            onClick={handleRetakeQuiz}
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          >
+            Try Again
+          </button>
+        </>
       )}
-      <button
-        onClick={handleRetakeQuiz}
-        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-      >
-        Try Again
-      </button>
+
+      {!isValid && (
+        <button
+          onClick={() => router.push("/")} // Atau halaman lain yang Anda inginkan
+          className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+        >
+          Go Back
+        </button>
+      )}
     </div>
   );
 };
