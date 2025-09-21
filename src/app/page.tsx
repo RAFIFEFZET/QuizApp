@@ -12,7 +12,7 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <div className="p-4">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-background/95 to-primary/5">
       {/* Konten Utama */}
       <MainContent handleStartQuiz={handleStartQuiz} />
     </div>

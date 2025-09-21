@@ -138,6 +138,7 @@ const ScorePage: React.FC = () => {
                   width={400}
                   height={300}
                   className="w-full object-cover"
+                  unoptimized={true}
                 />
               </div>
             ) : (
