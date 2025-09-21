@@ -116,7 +116,7 @@ export default async function QuestionsPage(props: QuestionsPageProps) {
   const category = categories.find((cat) => cat.slug === slug);
 
   if (!category) {
-    return <div className="p-4 text-red-500">Kategori tidak ditemukan.</div>;
+    return <div className="p-8 text-center text-red-500 text-xl font-medium">Kategori tidak ditemukan.</div>;
   }
 
   let questions: Question[] = [];
@@ -125,16 +125,29 @@ export default async function QuestionsPage(props: QuestionsPageProps) {
     questions = await fetchQuestions(category.id, difficulty);
     console.log("Questions fetched successfully");
   } catch (error) {
-    return <div className="p-4 text-red-500">{(error as Error).message}</div>;
+    return (
+      <div className="p-8 flex flex-col items-center justify-center min-h-[80vh]">
+        <div className="w-full max-w-lg p-6 border-2 border-red-400 rounded-xl shadow-lg bg-background/90">
+          <div className="text-center text-red-500 text-xl font-medium">
+            {(error as Error).message}
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="p-4 flex flex-col flex-grow">
-      <h1 className="text-2xl font-bold mb-4">
-        Quiz: {category.name} -{" "}
-        {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}
-      </h1>
-      <ClientQuiz questions={questions} slug={slug} difficulty={difficulty} />
+    <div className="p-6 md:p-8 flex flex-col items-center min-h-screen bg-gradient-to-b from-background to-background/95">
+      <div className="w-full max-w-4xl">
+        <div className="mb-6 p-4 bg-primary/10 backdrop-blur-sm rounded-lg shadow-md border border-primary/30">
+          <h1 className="text-3xl font-bold text-center">
+            <span className="text-primary">{category.name}</span>
+            <span className="mx-2">•</span>
+            <span className="text-primary/80">{difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}</span>
+          </h1>
+        </div>
+        <ClientQuiz questions={questions} slug={slug} difficulty={difficulty} />
+      </div>
     </div>
   );
 }

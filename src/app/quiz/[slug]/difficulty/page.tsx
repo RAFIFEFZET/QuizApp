@@ -40,19 +40,32 @@ const DifficultySelectionPage: React.FC = () => {
   };
 
   if (!categoryId) {
-    return <div className="p-4 text-red-500">Kategori tidak ditemukan.</div>;
+    return (
+      <div className="p-8 text-red-500 text-center text-xl">
+        Kategori tidak ditemukan.
+      </div>
+    );
   }
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Pilih Tingkat Kesulitan</h1>
-      {difficulties.map((difficulty) => (
-        <div key={difficulty} className="mb-2">
-          <Button onClick={() => handleDifficultySelect(difficulty)}>
-            {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}
-          </Button>
+    <div className="p-8 flex flex-col items-center justify-center min-h-[80vh]">
+      <h1 className="text-3xl font-bold mb-8 text-center">
+        Pilih Tingkat Kesulitan
+      </h1>
+      <div className="w-full max-w-md p-6 border-2 border-primary rounded-xl shadow-lg bg-background/80 backdrop-blur-sm">
+        <div className="grid grid-cols-1 gap-4">
+          {difficulties.map((difficulty) => (
+            <div key={difficulty} className="w-full">
+              <Button
+                onClick={() => handleDifficultySelect(difficulty)}
+                className="w-full py-6 text-lg font-medium transition-all duration-300 hover:scale-105 hover:shadow-[0_0_15px_rgba(var(--primary-rgb)/0.8)] hover:bg-gradient-to-r hover:from-primary/80 hover:to-primary"
+              >
+                {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}
+              </Button>
+            </div>
+          ))}
         </div>
-      ))}
+      </div>
     </div>
   );
 };

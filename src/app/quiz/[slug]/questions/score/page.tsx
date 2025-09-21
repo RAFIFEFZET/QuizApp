@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter, useSearchParams, useParams } from "next/navigation";
 import Image from "next/image";
 import gifsData from "@/data/gifs.json";
+import { Button } from "@/components/ui/button";
 
 const ScorePage: React.FC = () => {
   const router = useRouter();
@@ -58,47 +59,149 @@ const ScorePage: React.FC = () => {
     router.push(`/quiz/${slug}/questions`);
   };
 
+  const difficulty = searchParams.get("difficulty") || "easy";
+
+  // Calculate percentage for better visualization
+  const percentage = Math.round((score / total) * 100);
+
+  // Determine color based on score percentage
+  const getScoreColor = () => {
+    if (percentage >= 80) return "text-green-500";
+    if (percentage >= 60) return "text-blue-500";
+    if (percentage >= 40) return "text-yellow-500";
+    return "text-red-500";
+  };
+
   return (
-    <div className="p-4 flex flex-col items-center justify-center h-full">
-      <h1 className="text-3xl font-bold mb-6">Your Score</h1>
-      <p className="text-xl mb-2">
-        You scored {score} out of {total}
-      </p>
-      <p className="text-xl mb-4">
-        {isValid ? message : "Invalid score or total."}
-      </p>
+    <div className="p-6 md:p-8 flex flex-col items-center justify-center min-h-[90vh] bg-gradient-to-b from-background to-background/90">
+      <div className="w-full max-w-lg p-8 border-2 border-primary/30 rounded-xl shadow-lg bg-card/60 backdrop-blur-sm">
+        <h1 className="text-4xl font-bold text-center mb-8">Skor Kamu</h1>
 
-      {isValid && (
-        <>
-          {/* Tampilkan GIF berdasarkan skor setelah gifSrc ditentukan */}
-          {gifSrc ? (
-            <Image
-              src={gifSrc}
-              alt="Score GIF"
-              width={256}
-              height={256}
-              className="mb-6"
-            />
-          ) : (
-            <div className="w-64 h-64 mb-6 bg-gray-200 animate-pulse"></div>
-          )}
-          <button
-            onClick={handleRetakeQuiz}
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        <div className="flex justify-center mb-6">
+          <div className="relative w-48 h-48 flex items-center justify-center">
+            {/* Circular progress indicator */}
+            <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
+              <circle
+                className="text-gray-200"
+                strokeWidth="8"
+                stroke="currentColor"
+                fill="transparent"
+                r="40"
+                cx="50"
+                cy="50"
+              />
+              <circle
+                className={getScoreColor()}
+                strokeWidth="8"
+                strokeDasharray={`${2 * Math.PI * 40}`}
+                strokeDashoffset={`${
+                  2 * Math.PI * 40 * (1 - percentage / 100)
+                }`}
+                strokeLinecap="round"
+                stroke="currentColor"
+                fill="transparent"
+                r="40"
+                cx="50"
+                cy="50"
+              />
+            </svg>
+            {/* Score text in the center */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <span className={`text-4xl font-bold ${getScoreColor()}`}>
+                {percentage}%
+              </span>
+              <span className="text-sm opacity-70">
+                {score}/{total} benar
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div className="text-center mb-8">
+          <p className="text-2xl font-semibold mb-3">
+            {isValid ? message : "Invalid score or total."}
+          </p>
+          <p className="text-sm opacity-70">
+            Kategori: {category.charAt(0).toUpperCase() + category.slice(1)} •
+            Level: {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}
+          </p>
+        </div>
+
+        {isValid && (
+          <>
+            {/* Tampilkan GIF berdasarkan skor setelah gifSrc ditentukan */}
+            {gifSrc ? (
+              <div className="mb-8 rounded-lg overflow-hidden shadow-lg">
+                <Image
+                  src={gifSrc}
+                  alt="Score GIF"
+                  width={400}
+                  height={300}
+                  className="w-full object-cover"
+                />
+              </div>
+            ) : (
+              <div className="w-full h-64 mb-8 bg-gray-200 animate-pulse rounded-lg"></div>
+            )}
+
+            <div className="flex flex-col md:flex-row gap-4">
+              <Button
+                onClick={handleRetakeQuiz}
+                className="flex-1 py-6 text-lg font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg"
+              >
+                Coba Lagi
+              </Button>
+
+              <Button
+                onClick={() => router.push(`/quiz/${slug}/difficulty`)}
+                variant="outline"
+                className="flex-1 py-6 text-lg font-medium transition-all duration-300 hover:scale-105 hover:bg-primary/10"
+              >
+                Ubah Level
+              </Button>
+
+              <Button
+                onClick={() => router.push("/quiz")}
+                variant="ghost"
+                className="flex-1 py-6 text-lg font-medium transition-all duration-300 hover:scale-105 hover:bg-primary/5"
+              >
+                Kategori Lain
+              </Button>
+            </div>
+          </>
+        )}
+
+        {!isValid && (
+          <Button
+            onClick={() => router.push("/")}
+            className="w-full py-6 text-lg font-medium"
           >
-            Try Again
-          </button>
-        </>
-      )}
+            Kembali ke Beranda
+          </Button>
+        )}
 
-      {!isValid && (
-        <button
-          onClick={() => router.push("/")} // Atau halaman lain yang Anda inginkan
-          className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-        >
-          Go Back
-        </button>
-      )}
+        <div className="mt-8 pt-4 border-t border-primary/10 text-center text-sm opacity-70">
+          <p>Bagikan skor kamu:</p>
+          <div className="flex justify-center gap-4 mt-2">
+            {/* Social share buttons (non-functional for demo) */}
+            <button className="p-2 rounded-full bg-blue-500 text-white hover:bg-blue-600 transition-colors">
+              <span role="img" aria-label="share">
+                📱
+              </span>
+            </button>
+            <button className="p-2 rounded-full bg-green-500 text-white hover:bg-green-600 transition-colors">
+              <span role="img" aria-label="whatsapp">
+                📢
+              </span>
+            </button>
+            <button className="p-2 rounded-full bg-purple-500 text-white hover:bg-purple-600 transition-colors">
+              <span role="img" aria-label="copy">
+                📋
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
