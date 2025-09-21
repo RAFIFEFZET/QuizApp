@@ -33,8 +33,8 @@ const Footer: React.FC = () => {
               About Me
             </h3>
             <p className="text-sm mt-2">
-              I'm currently learning and exploring Next.js. Check out my GitHub
-              profile for my latest projects and contributions.
+              I&apos;m currently learning and exploring Next.js. Check out my
+              GitHub profile for my latest projects and contributions.
             </p>
             <ul className="mt-4 space-y-2">
               <li>

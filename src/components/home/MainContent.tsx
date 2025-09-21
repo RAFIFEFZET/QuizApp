@@ -4,7 +4,6 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { HiMiniAcademicCap } from "react-icons/hi2";
 import { FaBrain, FaLightbulb, FaTrophy } from "react-icons/fa";
-import Image from "next/image";
 
 interface MainContentProps {
   handleStartQuiz: () => void;
@@ -17,7 +16,7 @@ const MainContent: React.FC<MainContentProps> = ({ handleStartQuiz }) => {
       <div className="absolute inset-0 -z-10 overflow-hidden">
         {/* Gradient background */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-primary/10"></div>
-        
+
         {/* Decorative circles */}
         <div className="absolute top-20 left-10 w-64 h-64 rounded-full bg-primary/10 blur-3xl"></div>
         <div className="absolute bottom-20 right-10 w-72 h-72 rounded-full bg-primary/10 blur-3xl"></div>
@@ -30,7 +29,9 @@ const MainContent: React.FC<MainContentProps> = ({ handleStartQuiz }) => {
           <div className="p-5 bg-primary/10 rounded-full mb-5">
             <HiMiniAcademicCap className="h-16 w-16 text-primary" />
           </div>
-          <h1 className="font-poppins text-5xl md:text-6xl font-extrabold bg-gradient-to-r from-primary to-purple-500 bg-clip-text text-transparent">Quiz App</h1>
+          <h1 className="font-poppins text-5xl md:text-6xl font-extrabold bg-gradient-to-r from-primary to-purple-500 bg-clip-text text-transparent">
+            Quiz App
+          </h1>
         </div>
 
         {/* Deskripsi */}
@@ -41,7 +42,7 @@ const MainContent: React.FC<MainContentProps> = ({ handleStartQuiz }) => {
           sekaligus membuat kuis yang menyenangkan menggunakan shadcn-ui.
         </p>
       </div>
-      
+
       {/* Features section with glassmorphism cards */}
       <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
         <div className="bg-background/40 backdrop-blur-md p-6 rounded-xl border border-white/10 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
@@ -50,20 +51,28 @@ const MainContent: React.FC<MainContentProps> = ({ handleStartQuiz }) => {
               <FaBrain className="h-8 w-8 text-blue-500" />
             </div>
           </div>
-          <h3 className="text-xl font-bold text-center mb-2">Berbagai Kategori</h3>
-          <p className="text-center text-muted-foreground">Pilih dari berbagai kategori kuis yang menarik</p>
+          <h3 className="text-xl font-bold text-center mb-2">
+            Berbagai Kategori
+          </h3>
+          <p className="text-center text-muted-foreground">
+            Pilih dari berbagai kategori kuis yang menarik
+          </p>
         </div>
-        
+
         <div className="bg-background/40 backdrop-blur-md p-6 rounded-xl border border-white/10 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
           <div className="flex justify-center mb-4">
             <div className="p-3 bg-green-500/10 rounded-full">
               <FaLightbulb className="h-8 w-8 text-green-500" />
             </div>
           </div>
-          <h3 className="text-xl font-bold text-center mb-2">Tingkat Kesulitan</h3>
-          <p className="text-center text-muted-foreground">Tantang dirimu dengan berbagai level kesulitan</p>
+          <h3 className="text-xl font-bold text-center mb-2">
+            Tingkat Kesulitan
+          </h3>
+          <p className="text-center text-muted-foreground">
+            Tantang dirimu dengan berbagai level kesulitan
+          </p>
         </div>
-        
+
         <div className="bg-background/40 backdrop-blur-md p-6 rounded-xl border border-white/10 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
           <div className="flex justify-center mb-4">
             <div className="p-3 bg-amber-500/10 rounded-full">
@@ -71,7 +80,9 @@ const MainContent: React.FC<MainContentProps> = ({ handleStartQuiz }) => {
             </div>
           </div>
           <h3 className="text-xl font-bold text-center mb-2">Lihat Skor</h3>
-          <p className="text-center text-muted-foreground">Dapatkan hasil langsung dengan GIF menarik</p>
+          <p className="text-center text-muted-foreground">
+            Dapatkan hasil langsung dengan GIF menarik
+          </p>
         </div>
       </div>
 
