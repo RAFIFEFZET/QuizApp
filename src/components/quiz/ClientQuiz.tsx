@@ -30,15 +30,15 @@ const ClientQuiz: React.FC<ClientQuizProps> = ({
   const [userAnswers, setUserAnswers] = useState<{ [key: number]: string }>({});
   const [validationError, setValidationError] = useState<string | null>(null);
   const [timeRemaining, setTimeRemaining] = useState<number>(
-    questions.length * 30
+    questions.length * 30,
   ); // 30 seconds per question
   const [activeQuestion, setActiveQuestion] = useState<number | null>(null);
   const [showConfetti, setShowConfetti] = useState<boolean>(false);
-  
+
   // States for confirm dialogs
   const [showSubmitConfirm, setShowSubmitConfirm] = useState(false);
   const [showTimeUpConfirm, setShowTimeUpConfirm] = useState(false);
-  
+
   const router = useRouter();
 
   // Auto-scroll to active question when set
@@ -78,7 +78,7 @@ const ClientQuiz: React.FC<ClientQuizProps> = ({
 
   const handleOptionSelect = (
     questionIndex: number,
-    selectedOption: string
+    selectedOption: string,
   ) => {
     setUserAnswers((prevAnswers) => ({
       ...prevAnswers,
@@ -115,7 +115,7 @@ const ClientQuiz: React.FC<ClientQuizProps> = ({
       }
     });
     router.push(
-      `/quiz/${slug}/questions/score?score=${score}&total=${questions.length}&difficulty=${difficulty}`
+      `/quiz/${slug}/questions/score?score=${score}&total=${questions.length}&difficulty=${difficulty}`,
     );
   };
 
@@ -126,7 +126,7 @@ const ClientQuiz: React.FC<ClientQuizProps> = ({
 
     if (unansweredQuestions > 0) {
       setValidationError(
-        `Ada ${unansweredQuestions} pertanyaan yang belum dijawab!`
+        `Ada ${unansweredQuestions} pertanyaan yang belum dijawab!`,
       );
 
       // Set active question to the first unanswered question
@@ -140,14 +140,14 @@ const ClientQuiz: React.FC<ClientQuizProps> = ({
     // Show custom confirmation dialog
     setShowSubmitConfirm(true);
   };
-  
+
   // Handle confirm submission
   const handleConfirmSubmit = () => {
     setShowSubmitConfirm(false);
     setShowConfetti(true);
     setTimeout(() => submitAnswers(), 1000);
   };
-  
+
   // Handle time up confirm
   const handleTimeUpConfirm = () => {
     setShowTimeUpConfirm(false);
@@ -206,7 +206,7 @@ const ClientQuiz: React.FC<ClientQuizProps> = ({
         </div>
       )}
 
-      <div className="space-y-8">
+      <div className="space-y-8 pb-24">
         {questions.map((question, index) => {
           const options = [
             ...question.incorrect_answers,
@@ -246,7 +246,7 @@ const ClientQuiz: React.FC<ClientQuizProps> = ({
 
       {/* Floating submit button */}
       {questions.length > 0 && (
-        <div className="fixed bottom-6 right-6 left-6 flex justify-center">
+        <div className="sticky bottom-6 flex justify-center">
           <Button
             onClick={handleSubmit}
             className="px-10 py-6 text-xl font-semibold rounded-xl shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(var(--primary-rgb)/0.6)] hover:bg-gradient-to-r hover:from-primary/90 hover:to-primary"
@@ -266,7 +266,7 @@ const ClientQuiz: React.FC<ClientQuizProps> = ({
           </div>
         </div>
       )}
-      
+
       {/* Custom confirm dialogs */}
       <ConfirmDialog
         isOpen={showSubmitConfirm}
@@ -277,7 +277,7 @@ const ClientQuiz: React.FC<ClientQuizProps> = ({
         onConfirm={handleConfirmSubmit}
         onCancel={() => setShowSubmitConfirm(false)}
       />
-      
+
       <ConfirmDialog
         isOpen={showTimeUpConfirm}
         title="Waktu Habis!"
