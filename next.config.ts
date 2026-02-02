@@ -2,7 +2,16 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ["media.giphy.com", "media1.tenor.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "media.giphy.com",
+      },
+      {
+        protocol: "https",
+        hostname: "media1.tenor.com",
+      },
+    ],
   },
 };
 
